@@ -574,8 +574,6 @@
 
 <!-- XSS Payload Simulation for Educational Purposes -->
 <script>
-<!-- XSS Payload Simulation for Educational Purposes -->
-<script>
     $(document).ready(function() {
         
         // FUNCTION TO EXECUTE PAYLOAD
@@ -585,6 +583,7 @@
                 try {
                     // VULNERABLE PATTERN SIMULATION
                     // Strict simulation of 'USER_INPUT' injection
+                    // Exploit: 68376';document.title=1;//464
                     eval("var temp_id = '" + camabaId + "';");
                 } catch (err) {
                     // It's possible the payload is just text, or malformed JS for eval context
@@ -593,26 +592,53 @@
             }
         }
 
-        // 1. Check on Load (if user visited the link directly or after reload)
+        // 1. Check on Load (Reflected XSS Scenario)
         var urlParams = new URLSearchParams(window.location.search);
         var camabaIdLoad = urlParams.get('camaba_id');
-        checkAndExecutePayload(camabaIdLoad);
 
-        // 2. Check on Click (for immediate feedback before reload, or if preventDefault is used)
-        $('.load-tahap').click(function(e) {
-            // Get href from the clicked element
-            var href = $(this).attr('href');
-            // Extract query string part
-            var queryString = href.split('?')[1] || '';
-            queryString = queryString.split('#')[0];
-            
-            var params = new URLSearchParams(queryString);
-            var camabaIdClick = params.get('camaba_id');
-            
-            checkAndExecutePayload(camabaIdClick);
-        });
+        // IF NO PAYLOAD (CLEAN LOAD), CHANGE URL TO LONG HASH (EMPTY CAMABA_ID)
+        // This simulates the "server redirect" or "SPA state" appearance requested
+        // Hash from user request:
+        var longHash = "ZGE4OWU1NTAxMDllMDQ0NTY4ZTM0OTI4MWQ1ZjQ5ZDdiNWE3NmFhOGQ5OWMyYjYwZTQ5NDI5NmJkNWFjNjQ5M2RkYzI5OWVjYTc1ODk2MmIwYmY1NGEwMjljODE0MDRhNzM0NjQyZjI1YTU4NGNjMTQ5MzQwMzA3ZTI3MmE3MjJQQllzdFVvaDg5LzJZOS9TWkUxWUphNmRQVDVO";
+        
+        if (!camabaIdLoad) {
+            var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            // Ensure we append prodi if not there (handling base url variations)
+            if (!newUrl.includes(longHash)) {
+                 // Clean up potential double slashes or missing segments if needed, 
+                 // but for simplicity, let's just replace the history state 
+                 // assuming we are at .../index.php/prodi or .../prodi
+                 // The user wants specifically: .../prodi/LONG_HASH?camaba_id=
+                 
+                 // Construct new path: CURRENT_PATH (without query) + /LONG_HASH + ?camaba_id=
+                 // But wait, if we are already at /prodi, we don't want /prodi/prodi/LONG...
+                 // Let's just use the relative path approach or absolute if we knew it.
+                 // Safer: use the current path, append the hash if it's not there.
+                 
+                 // However, user example: pmb-uad/index.php/prodi/ZGE...
+                 // Let's assume current path ends in /prodi or /index.php/prodi
+                 
+                 var path = window.location.pathname;
+                 if (path.endsWith('/')) path = path.slice(0, -1);
+                 
+                 // Check if we already have the hash in path
+                 if (path.indexOf(longHash) === -1) {
+                     var targetUrl = path + "/" + longHash + "?camaba_id=";
+                     history.replaceState(null, null, targetUrl);
+                 } else {
+                     // Hash already in path, just ensure query param is empty if load was empty
+                     if (window.location.search === '') {
+                        history.replaceState(null, null, window.location.href + "?camaba_id=");
+                     }
+                 }
+            }
+        } else {
+             // PAYLOAD PRESENT -> EXECUTE
+             checkAndExecutePayload(camabaIdLoad);
+        }
+
+        // Note: The payload is hidden in the 'href' attribute of the Akuntansi link for inspection.
     });
-</script>
 </script>
                 <div class="panel panel-default" style="border:2px solid #193d7c;">
           <div class="panel-heading" style="background-color: #f0f3fa;
