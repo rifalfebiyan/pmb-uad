@@ -33,9 +33,10 @@ class Auth extends CI_Controller {
                     'logged_in' => TRUE
                 );
                 $this->session->set_userdata($session_data);
+                $this->session->set_flashdata('success', 'Login berhasil! Selamat datang ' . $user->nama);
                 
-                // Redirect ke halaman sukses
-                redirect('login/success');
+                // Redirect ke halaman Pilihan Program Studi
+                redirect('prodi');
             } else {
                 $this->session->set_flashdata('error', 'Email atau Password salah!');
                 $this->load->view('login_view');
