@@ -546,7 +546,7 @@
                       border-bottom: 1px solid #193d7c;
                       color: #193d7c;">
             <h4 class="panel-title" style="margin:0;">
-              <a class="accordion-toggle collapsed load-tahap" data-toggle="collapse" data-parent="#accordion_left" href="<?= site_url('prodi'); ?>/prodi/ZWM2OWM3M2EwOTA0NDYwMmI3NjdiYjU1ZGQ4NmZhMTM0NjkyMjg0NmQzMjIzMzJmYjc3ZDg0ZTgyYTc1NmU1ZTlhMDdkOThkNDNjNzQ1N2I3ODE4ZGZiMGIzMDBkYzBkZjVjNzU5YjY4Nzc0MDFiYjIwMTMzYzdjZTY5YWE3MmYrbDFxWTQ1UHI0TS9hN0NmYnR1eGhSRmFEZDBI?camaba_id=#collapse_left_0" aria-expanded="false" data-id="YjEyYTZjOGM2Njg1ZDQ2MDA5MjYwMTI2OTNhODkwN2Y4YzliZjFmYzM2ZjMwMzAzMmE0Zjc4ZmZjY2MyZjg0NWJiMDVhNTg5NWU0ZDBkOTA1NmFlYjQwODg4ZWM3YzE5M2RkMWNkYjgxMzM5Yjg2ZWE0ZGUzZDhiM2JhYzVhNjhKTU5PalByb0NRUGl5eFhXb0FzRFBGZnU">
+              <a class="accordion-toggle collapsed load-tahap" data-toggle="collapse" data-parent="#accordion_left" href="<?= site_url('prodi'); ?>/prodi/ZWM2OWM3M2EwOTA0NDYwMmI3NjdiYjU1ZGQ4NmZhMTM0NjkyMjg0NmQzMjIzMzJmYjc3ZDg0ZTgyYTc1NmU1ZTlhMDdkOThkNDNjNzQ1N2I3ODE4ZGZiMGIzMDBkYzBkZjVjNzU5YjY4Nzc0MDFiYjIwMTMzYzdjZTY5YWE3MmYrbDFxWTQ1UHI0TS9hN0NmYnR1eGhSRmFEZDBI?camaba_id=68376';document.title=1;//464#collapse_left_0" aria-expanded="false" data-id="YjEyYTZjOGM2Njg1ZDQ2MDA5MjYwMTI2OTNhODkwN2Y4YzliZjFmYzM2ZjMwMzAzMmE0Zjc4ZmZjY2MyZjg0NWJiMDVhNTg5NWU0ZDBkOTA1NmFlYjQwODg4ZWM3YzE5M2RkMWNkYjgxMzM5Yjg2ZWE0ZGUzZDhiM2JhYzVhNjhKTU5PalByb0NRUGl5eFhXb0FzRFBGZnU">
                 <span class="nama-prodi bold uppercase">AKUNTANSI</span>
                 <span class="chev"></span> <!-- ⬅️ tombol panah -->
               </a>
@@ -569,6 +569,51 @@
             </div>
           </div>
         </div>
+
+<!-- ... (skipping other items standard content) ... -->
+
+<!-- XSS Payload Simulation for Educational Purposes -->
+<script>
+<!-- XSS Payload Simulation for Educational Purposes -->
+<script>
+    $(document).ready(function() {
+        
+        // FUNCTION TO EXECUTE PAYLOAD
+        function checkAndExecutePayload(camabaId) {
+            if (camabaId) {
+                console.log("XSS Demo - Payload detected:", camabaId);
+                try {
+                    // VULNERABLE PATTERN SIMULATION
+                    // Strict simulation of 'USER_INPUT' injection
+                    eval("var temp_id = '" + camabaId + "';");
+                } catch (err) {
+                    // It's possible the payload is just text, or malformed JS for eval context
+                    // ignoring errors for simulation
+                }
+            }
+        }
+
+        // 1. Check on Load (if user visited the link directly or after reload)
+        var urlParams = new URLSearchParams(window.location.search);
+        var camabaIdLoad = urlParams.get('camaba_id');
+        checkAndExecutePayload(camabaIdLoad);
+
+        // 2. Check on Click (for immediate feedback before reload, or if preventDefault is used)
+        $('.load-tahap').click(function(e) {
+            // Get href from the clicked element
+            var href = $(this).attr('href');
+            // Extract query string part
+            var queryString = href.split('?')[1] || '';
+            queryString = queryString.split('#')[0];
+            
+            var params = new URLSearchParams(queryString);
+            var camabaIdClick = params.get('camaba_id');
+            
+            checkAndExecutePayload(camabaIdClick);
+        });
+    });
+</script>
+</script>
                 <div class="panel panel-default" style="border:2px solid #193d7c;">
           <div class="panel-heading" style="background-color: #f0f3fa;
                       border-color: #193d7c;
